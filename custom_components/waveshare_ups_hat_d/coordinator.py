@@ -25,7 +25,6 @@ class WaveshareUpsHatDCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
         self.i2c_bus_num = entry.data["i2c_bus"]
         self.mcu_addr = entry.data["mcu_addr"]
         self.ina_addr = entry.data["ina219_addr"]
-        self._ina: INA219 | None = None
 
         super().__init__(
             hass,
@@ -76,14 +75,13 @@ class WaveshareUpsHatDCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
         }
 
     def _read_ina(self, bus: SMBus) -> Dict[str, Any]:
-        if self._ina is None:
-            self._ina = INA219(bus, self.ina_addr)
+        ina = INA219(bus, self.ina_addr)
 
         return {
-            "ina_bus_voltage_v": self._ina.bus_voltage_v(),
-            "ina_shunt_voltage_mv": self._ina.shunt_voltage_mv(),
-            "ina_current_ma": self._ina.current_ma(),
-            "ina_power_w": self._ina.power_w(),
+            "ina_bus_voltage_v": ina.bus_voltage_v(),
+            "ina_shunt_voltage_mv": ina.shunt_voltage_mv(),
+            "ina_current_ma": ina.current_ma(),
+            "ina_power_w": ina.power_w(),
         }
 
     def _sync_update(self) -> Dict[str, Any]:
