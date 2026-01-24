@@ -1,0 +1,10 @@
+{
+  "domain": "waveshare_ups_hat_d",
+  "name": "Waveshare UPS HAT (D)",
+  "version": "0.1.0",
+  "documentation": "https://www.waveshare.com/wiki/UPS_HAT_(D)",
+  "requirements": ["smbus2==0.5.0"],
+  "codeowners": [],
+  "config_flow": true,
+  "iot_class": "local_polling"
+}

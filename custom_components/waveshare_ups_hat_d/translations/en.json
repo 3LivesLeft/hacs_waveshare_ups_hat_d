@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Waveshare UPS HAT (D)",
+        "description": "Configure I2C bus and addresses for the UPS HAT (D).",
+        "data": {
+          "name": "Name",
+          "i2c_bus": "I2C bus number",
+          "mcu_addr": "MCU I2C address (hex)",
+          "ina219_addr": "INA219 I2C address (hex)",
+          "scan_interval": "Update interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "invalid_bus": "Enter an I2C bus number of 0 or greater.",
+      "invalid_interval": "Update interval must be 5 seconds or higher.",
+      "invalid_address": "Enter a valid 7-bit hexadecimal I2C address (e.g. 0x2D)."
+    }
+  }
+}

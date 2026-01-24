@@ -1,0 +1,8 @@
+{
+  "name": "Waveshare UPS HAT (D)",
+  "render_readme": true,
+  "filename": "README.md",
+  "content_in_root": false,
+  "domains": ["sensor", "binary_sensor"],
+  "homeassistant": "2023.12.0"
+}
