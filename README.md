@@ -59,6 +59,31 @@ Custom [Home Assistant](https://www.home-assistant.io/) integration that surface
 
 All sensors use native Home Assistant units, device classes, and measurement state classes, enabling Energy dashboard aggregation where applicable.
 
+### Derived on-battery template sensor
+
+Users who want to trigger graceful shutdown automations after the HAT has been discharging for a set amount of time can create a template binary sensor that watches the INA219 current value and adds configurable on/off delays. Add this block to your Home Assistant `configuration.yaml` (or the include where you manage template definitions):
+
+```yaml
+template:
+  - binary_sensor:
+      - name: "UPS On Battery (Derived)"
+        unique_id: ups_on_battery_derived
+        state: >
+          {% set i = states('sensor.ups_hat_d_ina_current') %}
+          {% if i in ['unknown','unavailable','none'] %}
+            false
+          {% else %}
+            {{ (i | float) > 20 }}
+          {% endif %}
+        device_class: power
+        delay_on:
+          seconds: 15
+        delay_off:
+          seconds: 30
+```
+
+The `delay_on`/`delay_off` settings ensure the sensor only flips after consistent current draw, giving you a stable trigger for time-based shutdown workflows. Because the template integration reads from `configuration.yaml`, reloading Templates (or restarting) will apply any tweaks you make to this block.
+
 ---
 
 ## Development Notes
