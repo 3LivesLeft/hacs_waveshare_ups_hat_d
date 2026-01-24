@@ -8,14 +8,7 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.const import (
-    PERCENTAGE,
-    UnitOfElectricCharge,
-    UnitOfElectricCurrent,
-    UnitOfElectricPotentialDifference,
-    UnitOfPower,
-    UnitOfTime,
-)
+from homeassistant.const import PERCENTAGE
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -33,74 +26,74 @@ SENSORS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="battery_voltage_v",
         name="Battery Voltage",
-        native_unit_of_measurement=UnitOfElectricPotentialDifference.VOLT,
+        native_unit_of_measurement="V",
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="battery_current_ma",
         name="Battery Current",
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
+        native_unit_of_measurement="mA",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="remaining_capacity_mah",
         name="Remaining Capacity",
-        native_unit_of_measurement=UnitOfElectricCharge.MILLIAMPERE_HOUR,
+        native_unit_of_measurement="mAh",
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="remaining_discharge_time_min",
         name="Remaining Discharge Time",
-        native_unit_of_measurement=UnitOfTime.MINUTES,
+        native_unit_of_measurement="min",
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="vbus_voltage_v",
         name="VBUS Voltage",
-        native_unit_of_measurement=UnitOfElectricPotentialDifference.VOLT,
+        native_unit_of_measurement="V",
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="vbus_current_ma",
         name="VBUS Current",
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
+        native_unit_of_measurement="mA",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="vbus_power_w",
         name="VBUS Power",
-        native_unit_of_measurement=UnitOfPower.WATT,
+        native_unit_of_measurement="W",
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="ina_bus_voltage_v",
         name="INA Bus Voltage",
-        native_unit_of_measurement=UnitOfElectricPotentialDifference.VOLT,
+        native_unit_of_measurement="V",
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="ina_shunt_voltage_mv",
         name="INA Shunt Voltage",
-        native_unit_of_measurement=UnitOfElectricPotentialDifference.MILLIVOLT,
+        native_unit_of_measurement="mV",
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="ina_current_ma",
         name="INA Current",
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
+        native_unit_of_measurement="mA",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="ina_power_w",
         name="INA Power",
-        native_unit_of_measurement=UnitOfPower.WATT,
+        native_unit_of_measurement="W",
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
     ),
