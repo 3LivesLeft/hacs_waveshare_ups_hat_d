@@ -1,4 +1,13 @@
 # Waveshare UPS HAT (D) – Home Assistant Integration
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Docs-41BDF5?logo=homeassistant&logoColor=white)](https://www.home-assistant.io/)
+[![Community Forum](https://img.shields.io/badge/Community%20Forum-Join%20the%20discussion-2563EB?logo=discourse&logoColor=white)](https://community.home-assistant.io/)
+[![Discord](https://img.shields.io/discord/330944238910963714?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/home-assistant)
+[![GitHub Repo stars](https://img.shields.io/github/stars/3LivesLeft/hacs_waveshare_ups_hat_d?logo=github)](https://github.com/3LivesLeft/hacs_waveshare_ups_hat_d/stargazers)<br>
+![HACS validation](https://img.shields.io/badge/HACS%20validation-passing-brightgreen?logo=homeassistant)
+[![Main Branch Check](https://img.shields.io/github/actions/workflow/status/3LivesLeft/hacs_waveshare_ups_hat_d/python-tests.yml?label=Main%20branch%20check&logo=github)](https://github.com/3LivesLeft/hacs_waveshare_ups_hat_d/actions/workflows/python-tests.yml)
+![Release](https://img.shields.io/github/v/release/3LivesLeft/hacs_waveshare_ups_hat_d)
+![Last commit](https://img.shields.io/github/last-commit/3LivesLeft/hacs_waveshare_ups_hat_d)
+![Contributors](https://img.shields.io/github/contributors/3LivesLeft/hacs_waveshare_ups_hat_d)
 
 Custom [Home Assistant](https://www.home-assistant.io/) integration that surfaces live telemetry from the Waveshare UPS HAT (D) board via I²C. The integration is designed to be HACS-compatible and exposes both battery and power path details captured from the on-board MCU and INA219 current sensor.
 
