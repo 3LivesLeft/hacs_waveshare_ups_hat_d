@@ -5,7 +5,7 @@ import sys
 import types
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, Optional, TypeVar, Generic
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
@@ -13,18 +13,24 @@ if str(PROJECT_ROOT) not in sys.path:
 
 import pytest
 
+TCoordinatorData = TypeVar("TCoordinatorData")
+
 
 class _FakeHomeAssistant:
     """Tiny stand-in for Home Assistant's core object used in coordinator tests."""
 
     def __init__(self) -> None:
-        self.loop = asyncio.get_event_loop()
+        try:
+            self.loop = asyncio.get_running_loop()
+        except RuntimeError:
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
 
     async def async_add_executor_job(self, func: Callable[..., Any], *args: Any) -> Any:
         return func(*args)
 
 
-class _FakeDataUpdateCoordinator:
+class _FakeDataUpdateCoordinator(Generic[TCoordinatorData]):
     """Minimal subset of Home Assistant's DataUpdateCoordinator."""
 
     def __init__(
@@ -39,12 +45,13 @@ class _FakeDataUpdateCoordinator:
         self.logger = logger
         self.name = name
         self.update_interval = update_interval
+        self.data: Optional[TCoordinatorData] = None
 
-    async def _async_update_data(self) -> Any:  # pragma: no cover - to be overridden by tests
+    async def _async_update_data(self) -> TCoordinatorData:  # pragma: no cover - to be overridden by tests
         raise NotImplementedError
 
     async def async_config_entry_first_refresh(self) -> None:
-        await self._async_update_data()
+        self.data = await self._async_update_data()
 
 
 class _FakeUpdateFailed(Exception):
