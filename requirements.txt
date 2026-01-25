@@ -1,0 +1,4 @@
+homeassistant>=2024.2.0
+pytest>=8.0.0
+pytest-homeassistant-custom-component>=0.13.108
+smbus2>=0.4.3

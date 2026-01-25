@@ -2,7 +2,7 @@
 
 Custom [Home Assistant](https://www.home-assistant.io/) integration that surfaces live telemetry from the Waveshare UPS HAT (D) board via I²C. The integration is designed to be HACS-compatible and exposes both battery and power path details captured from the on-board MCU and INA219 current sensor.
 
-![Photo of the Waveshare UPS HAT (D) board](./ups-hat-d-icon.png)
+![Photo of the Waveshare UPS HAT (D) board](https://www.waveshare.com/img/devkit/ups-hat-d-21700.jpg)
 *Waveshare UPS HAT (D) board with standoffs and power connectors.*
 
 Use the badge below to open the “Add repository to HACS” dialog in Home Assistant automatically:
