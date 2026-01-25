@@ -2,6 +2,9 @@
 
 Custom [Home Assistant](https://www.home-assistant.io/) integration that surfaces live telemetry from the Waveshare UPS HAT (D) board via I²C. The integration is designed to be HACS-compatible and exposes both battery and power path details captured from the on-board MCU and INA219 current sensor.
 
+![Photo of the Waveshare UPS HAT (D) board](./ups-hat-d-icon.png)
+*Waveshare UPS HAT (D) board with standoffs and power connectors.*
+
 Use the badge below to open the “Add repository to HACS” dialog in Home Assistant automatically:
 
 [![Add to HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=3LivesLeft&repository=hacs_waveshare_ups_hat_d)
@@ -87,6 +90,16 @@ template:
 ```
 
 The `delay_on`/`delay_off` settings ensure the sensor only flips after consistent current draw, giving you a stable trigger for time-based shutdown workflows. Because the template integration reads from `configuration.yaml`, reloading Templates (or restarting) will apply any tweaks you make to this block.
+
+### Automation examples
+
+A ready-to-import set of automations lives in `examples/automation_power_events.yaml`. It includes:
+- **UPS - Power cut detected (30s):** persistent notification if the derived on-battery sensor stays on for 30 seconds.
+- **UPS - Power restored (60s stable):** confirmation notification once the sensor has been off for 60 seconds.
+- **UPS - Warning after 60 minutes on battery:** hour-long outage warning to prep for a shutdown.
+- **UPS - Shutdown after 150 minutes on battery:** guarded host shutdown after 2.5 hours on battery, ensuring Home Assistant has been fully booted for at least 10 minutes.
+
+Copy the content into `automations.yaml` (or your preferred split package) and adjust entity IDs, delays, and services to match your environment.
 
 ---
 

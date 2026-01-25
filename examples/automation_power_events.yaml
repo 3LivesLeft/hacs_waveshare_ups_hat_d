@@ -1,0 +1,63 @@
+# Waveshare UPS HAT (D) automation examples
+# Copy these entries into your automations.yaml or split package.
+automation:
+  - alias: UPS - Power cut detected (30s)
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ups_on_battery_derived
+        to: "on"
+        for:
+          seconds: 30
+    action:
+      - service: notify.persistent_notification
+        data:
+          title: "Power cut detected"
+          message: "Mains appears to be off. Running on UPS."
+
+  - alias: UPS - Power restored (60s stable)
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ups_on_battery_derived
+        to: "off"
+        for:
+          seconds: 60
+    action:
+      - service: notify.persistent_notification
+        data:
+          title: "Power restored"
+          message: "Mains power appears restored. UPS no longer supplying the Pi."
+
+  - alias: UPS - Warning after 60 minutes on battery
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ups_on_battery_derived
+        to: "on"
+        for:
+          minutes: 60
+    action:
+      - service: notify.persistent_notification
+        data:
+          title: "UPS running (1 hour)"
+          message: "Mains has been off for 60 minutes. If it continues, HA will shut down later."
+
+  - alias: UPS - Shutdown after 150 minutes on battery
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ups_on_battery_derived
+        to: "on"
+        for:
+          minutes: 150
+    condition:
+      - condition: template
+        value_template: >
+          {{ (as_timestamp(now()) - as_timestamp(states('sensor.homeassistant_start'))) > 600 }}
+    action:
+      - service: notify.persistent_notification
+        data:
+          title: "UPS shutdown"
+          message: "Mains has been off for 150 minutes. Shutting down Home Assistant host now."
+      - service: hassio.host_shutdown
