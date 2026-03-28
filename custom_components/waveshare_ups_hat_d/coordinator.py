@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import logging
+import struct
+import sys
 from datetime import timedelta
 from typing import Any, Dict
 
@@ -9,6 +11,19 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from homeassistant.config_entries import ConfigEntry
 
 from smbus2 import SMBus
+
+# Python 3.14 changed fcntl.ioctl() to reject ctypes objects as mutable buffers,
+# breaking smbus2's _get_funcs(). Patch it to use a bytearray instead.
+if sys.version_info >= (3, 14):
+    from fcntl import ioctl as _ioctl
+    _I2C_FUNCS = 0x0705
+
+    def _get_funcs_compat(self) -> int:
+        buf = bytearray(4)
+        _ioctl(self.fd, _I2C_FUNCS, buf, True)
+        return struct.unpack("I", buf)[0]
+
+    SMBus._get_funcs = _get_funcs_compat  # type: ignore[method-assign]
 
 from .const import DOMAIN
 from .i2c import read_u8, read_u16_le, read_s16_le
