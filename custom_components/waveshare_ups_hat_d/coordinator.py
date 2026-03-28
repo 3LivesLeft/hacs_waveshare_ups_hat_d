@@ -13,15 +13,19 @@ from homeassistant.config_entries import ConfigEntry
 from smbus2 import SMBus
 
 # Python 3.14 changed fcntl.ioctl() to reject ctypes objects as mutable buffers,
-# breaking smbus2's _get_funcs(). Patch it to use a bytearray instead.
+# breaking smbus2's _get_funcs(). Patch it to use a bytearray sized for the
+# platform's unsigned long (8 bytes on 64-bit Linux, 4 bytes on 32-bit).
 if sys.version_info >= (3, 14):
+    import ctypes
     from fcntl import ioctl as _ioctl
     _I2C_FUNCS = 0x0705
+    _ULONG_SIZE = ctypes.sizeof(ctypes.c_ulong)
+    _ULONG_FMT = "Q" if _ULONG_SIZE == 8 else "I"
 
     def _get_funcs_compat(self) -> int:
-        buf = bytearray(4)
+        buf = bytearray(_ULONG_SIZE)
         _ioctl(self.fd, _I2C_FUNCS, buf, True)
-        return struct.unpack("I", buf)[0]
+        return struct.unpack(_ULONG_FMT, buf)[0]
 
     SMBus._get_funcs = _get_funcs_compat  # type: ignore[method-assign]
 
